@@ -189,12 +189,15 @@ def webhook():
     chat_id = message["chat"]["id"]
     text = message.get("text", "")
     video = message.get("video")
+    animation = message.get("animation")
 
     try:
         if text == "/start":
             handle_start(chat_id)
         elif video:
             handle_video(chat_id, video["file_id"])
+        elif animation:
+            handle_video(chat_id, animation["file_id"])
     except Exception:
         log.exception("unhandled error processing update")
 
