@@ -190,6 +190,8 @@ def webhook():
     text = message.get("text", "")
     video = message.get("video")
     animation = message.get("animation")
+    document = message.get("document")
+    doc_is_video = document and str(document.get("mime_type", "")).startswith("video/")
 
     try:
         if text == "/start":
@@ -198,6 +200,8 @@ def webhook():
             handle_video(chat_id, video["file_id"])
         elif animation:
             handle_video(chat_id, animation["file_id"])
+        elif doc_is_video:
+            handle_video(chat_id, document["file_id"])
     except Exception:
         log.exception("unhandled error processing update")
 
